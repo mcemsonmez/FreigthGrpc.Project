@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+
+option csharp_namespace = "FreigthGrpc.Server.Protos";
+
+service FreigthProtoService {
+	rpc GetFreight(GetFreightRequest) returns (FreightModel);
+	rpc GetAllFreights(GetAllFreightsRequest) returns (stream FreightModel);
+	rpc AddFreight (AddFreightRequest) returns (AddFreightResponse);
+	rpc UpdateFreight (UpdateFreightRequest) returns (FreightModel);
+	rpc DeleteFreight (DeleteFreigtRequest) returns (DeleteFreightResponse);
+	rpc InsertBulkFreight(stream FreightModel) returns (InsertBulkFreightResponse);
+	rpc Test(google.protobuf.Empty) returns (google.protobuf.Empty);
+}
+
+message GetFreightRequest {
+	string freightId = 1;
+}
+
+message FreightModel {
+	int32 length = 2;
+	int32 width = 3;
+	int32 height = 4;
+	double weight  = 5;
+	FreightType freightType = 6;	
+	google.protobuf.Timestamp createDate = 7;
+}
+
+enum FreightType {
+	LessThanTruckLoad = 0;
+	FullTruckLoad = 1;
+};
+
+message GetAllFreightsRequest {
+}
+
+message AddFreightRequest {
+	FreightModel freight = 1;
+}
+
+message AddFreightResponse {
+	string id = 1;
+}
+
+message UpdateFreightRequest {
+	string id  = 1;
+	FreightModel freight = 2;
+}
+
+message DeleteFreigtRequest {
+	string id = 1;
+}
+
+message DeleteFreightResponse {
+	bool isSuccess = 1;
+}
+
+message InsertBulkFreightResponse {
+	bool isSuccess = 1;
+	int32 count = 2;
+}
+	
